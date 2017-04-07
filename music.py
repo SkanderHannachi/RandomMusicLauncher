@@ -15,7 +15,8 @@ Pour le fun !
 import os 
 import subprocess 
 import random as rdm 
-
+from cv2 import waitKey
+import sys
 #------------------------------------------------------------------------
 PLAYER         = ("clementine","vlc")
 PATH_CENTRAL   = "/media/skndr-ros/DATA/music"
@@ -25,10 +26,15 @@ SHELL_COM_HOME = ' find $directory -type f -name "*FORMAT[0]" '    #trouve tous 
 #------------------------------------------------------------------------
 
 class Song : 
-    def __init__(self,extension) : 
+    def __init__(self,name, extension ="", album=""  ) : 
         self.extension = extension
         self.name      = name
         self.album     = album
+    def play(self) : 
+        try : 
+            p = subprocess.call([PLAYER[1],self.name])
+        except KeyboardInterrupt : 
+            print("stoped")
         
 class Player : 
     def __init__(self) : 
@@ -76,7 +82,7 @@ class Player :
                 print(ch) 
         else : 
             os.chdir(self.path+"/"+ls[x-1])
-        #print(os.getcwd())
+        album = os.getcwd()
         ls_songs = os.listdir(os.getcwd())
         print(ls_songs)
         i = 1
@@ -85,10 +91,10 @@ class Player :
             i+=1 #debug
             print(i)  #debug
         else : 
-            self.roulette_songs(ls_songs)  #recursivement..
+            self.roulette_songs(ls_songs,album)  #recursivement..
     
-    def roulette_songs(self,ls) : 
-        try : 
+    def roulette_songs(self,ls,album) : 
+        try :
             x = rdm.randint(0,len(ls)-1)
             extension = os.path.splitext(ls[x-1])[1]
             while extension not in self.format_tol : 
@@ -98,7 +104,9 @@ class Player :
                 #print(ls)
             if os.path.splitext(ls[x-1])[1] in FORMAT : 
                 print(ls[x-1])
-                subprocess.call(["clementine",ls[x-1]])
+                song = Song(ls[x-1],extension = extension,album=album)
+                song.play()
+                
             else : 
                 self.roulette_songs(ls)
         except ValueError : #or IndexError :   
@@ -111,6 +119,10 @@ def main() :
     run.roulette_dir()
 
 if __name__ == "__main__" :   
-    main()
+    while True : 
+        try :
+            main() 
+        except KeyboardInterrupt :
+            sys.exit(0)
         
         
