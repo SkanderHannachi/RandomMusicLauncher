@@ -4,7 +4,7 @@
     OS : Kubuntu 16.04 
     
     AMELIORATION : 
-        - Gener un csv pour contenir les informations sur les chansons. 
+        - Gener un csv pour contenir les informations sur les albums. 
         - Creer un classifieur pour choisir le prochain morceau selon le style (exemple : si on ecoute un morceau de jazz, on a envie que le morceau suivant soit dans le même genre de musique.
         
         
@@ -32,9 +32,12 @@ class Song :
         self.album     = album
     def play(self) : 
         try : 
-            p = subprocess.call([PLAYER[1],self.name])
+            subprocess.call([PLAYER[1],self.name])
+            print("adieu ! ")
         except KeyboardInterrupt : 
-            print("stoped")
+            print("done")
+            #process.terminate()
+
         
 class Player : 
     def __init__(self) : 
@@ -85,11 +88,16 @@ class Player :
         album = os.getcwd()
         ls_songs = os.listdir(os.getcwd())
         print(ls_songs)
-        i = 1
-        if ls_songs == [] : 
-            self.roulette_dir()
+        ls_exten = []
+        i = 0
+        for elem in ls_songs : 
+            ex = os.path.splitext(elem)[1]
+            ls_exten.append(ex)
+        if ls_songs == [] or  ( FORMAT[0] not in ls_exten )  : 
             i+=1 #debug
             print(i)  #debug
+            self.roulette_dir()
+            
         else : 
             self.roulette_songs(ls_songs,album)  #recursivement..
     
@@ -100,8 +108,6 @@ class Player :
             while extension not in self.format_tol : 
                 x = rdm.randint(0,len(ls))
                 extension = os.path.splitext(ls[x-1])[1]
-                #print(extension)
-                #print(ls)
             if os.path.splitext(ls[x-1])[1] in FORMAT : 
                 print(ls[x-1])
                 song = Song(ls[x-1],extension = extension,album=album)
@@ -119,7 +125,9 @@ def main() :
     run.roulette_dir()
 
 if __name__ == "__main__" :   
-    while True : 
+    inn = input("Combien de fois voulez vous lancer la roulette ?")
+    i = 0
+    while i < inn : 
         try :
             main() 
         except KeyboardInterrupt :
