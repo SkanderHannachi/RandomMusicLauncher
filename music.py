@@ -18,7 +18,7 @@ import random as rdm
 from cv2 import waitKey
 import sys
 #------------------------------------------------------------------------
-PLAYER         = ("clementine","vlc")
+PLAYER         = ("clementine","cvlc")
 PATH_CENTRAL   = "/media/skndr-ros/DATA/music"
 MODE           = ("On","Off","StandBy")
 FORMAT         = (".mp3",".flac",".wma",".mp4")
@@ -127,10 +127,10 @@ def main() :
 if __name__ == "__main__" :   
     inn = input("Combien de fois voulez vous lancer la roulette ?")
     i = 0
-    while i < inn : 
-        try :
-            main() 
-        except KeyboardInterrupt :
-            sys.exit(0)
-        
+    try : 
+        while(True) : 
+            subprocess.call("clear",shell = True)
+            main()
+    except KeyboardInterrupt : 
+            print("done")
         
