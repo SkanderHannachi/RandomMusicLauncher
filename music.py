@@ -16,7 +16,7 @@ import os
 import subprocess 
 import random as rdm 
 from cv2 import waitKey
-import sys
+from logo import *
 #------------------------------------------------------------------------
 PLAYER         = ("clementine","cvlc")
 PATH_CENTRAL   = "/media/skndr-ros/DATA/music"
@@ -33,12 +33,9 @@ class Song :
     def play(self) : 
         try : 
             subprocess.call([PLAYER[1],self.name])
-            print("adieu ! ")
         except KeyboardInterrupt : 
             print("done")
             #process.terminate()
-
-        
 class Player : 
     def __init__(self) : 
         self.path = PATH_CENTRAL
@@ -82,12 +79,12 @@ class Player :
                 ch = self.nav(rep,gen,elem)
                 (rep,gen) = self.check_folders(ch)
                 os.chdir(os.path.expanduser(self.path+"/"+ch))
-                print(ch) 
+                #print(ch) 
         else : 
             os.chdir(self.path+"/"+ls[x-1])
         album = os.getcwd()
         ls_songs = os.listdir(os.getcwd())
-        print(ls_songs)
+        #print(ls_songs)
         ls_exten = []
         i = 0
         for elem in ls_songs : 
@@ -125,12 +122,19 @@ def main() :
     run.roulette_dir()
 
 if __name__ == "__main__" :   
-    inn = input("Combien de fois voulez vous lancer la roulette ?")
-    i = 0
-    try : 
-        while(True) : 
-            subprocess.call("clear",shell = True)
-            main()
-    except KeyboardInterrupt : 
-            print("done")
+    bl = True
+    while(bl == True) : 
+        subprocess.call("clear",shell = True)
+        affiche()
+        main()
+        rep = raw_input ("conctinuer ? Y/N : ")
+        if rep in ["Y","y","yes"] : 
+            bl = True
+        elif rep in ["n","N","nope","no"] : 
+            bl = False
+            break
+        else : 
+            print("invalid")
+            break
+
         
