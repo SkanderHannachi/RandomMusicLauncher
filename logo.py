@@ -1,5 +1,7 @@
+import termcolor
+
 def affiche() : 
-    print(  """ 
+    termcolor.cprint(  """ 
         
         Credit to Susie Oviatt for the picture.
         Follow the project on : https://github.com/SkanderHannachi/RandomMusicLauncher
@@ -8,10 +10,11 @@ def affiche() :
               @m@,.                                 .@
              .@m%nm@,.                            .@m@
             .@nvv%vnmm@,.                      .@mn%n@
-           .@mnvvv%vvnnmm@,.                .@mmnv%vn@,                        
+           .@mnvvv%vvnnmm@,.                .@mmnv%vn@,                      
            @mmnnvvv%vvvvvnnmm@,.        .@mmnnvvv%vvnm@
-           @mmnnvvvvv%vvvvvvnnmm@, ;;;@mmnnvvvvv%vvvnm@,                            
-           `@mmnnvvvvvv%vvvvvnnmmm;;@mmnnvvvvvv%vvvvnmm@
+           @mmnnvvvvv%vvvvvvnnmm@, ;;;@mmnnvvvvv%vvvnm@,                 """, "blue" )                   
+    termcolor.cprint("""`
+           @mmnnvvvvvv%vvvvvnnmmm;;@mmnnvvvvvv%vvvvnmm@
             `@mmmnnvvvvvv%vvvnnmmm;%mmnnvvvvvv%vvvvnnmm@
               `@m%v%v%v%v%v;%;%;%;%;%;%;%%%vv%vvvvnnnmm@
               .,mm@@@@@mm%;;@@m@m@@m@@m@mm;;%%vvvnnnmm@;@,.
@@ -33,9 +36,11 @@ def affiche() :
              `@m%mm@'              ;%;.           `@m@
               @m@'                 `;%;             `@
               `@'                   ;%;.             '    
-               `                    `;%;                         RouletteSong V 1
+                                `                    `;%;        """ , "green")
+    termcolor.cprint("""                                                            RouletteSong V 1
+                                                            By H.S.                     """,color = "yellow" ) 
                                                                  
-    """ )
+    
     
     
 if __name__ == "__main__" : 

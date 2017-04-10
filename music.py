@@ -18,7 +18,7 @@ import random as rdm
 from cv2 import waitKey
 from logo import *
 #------------------------------------------------------------------------
-PLAYER         = ("clementine","cvlc")
+PLAYER         = ("clementine","cvlc","vlc")
 PATH_CENTRAL   = "/media/skndr-ros/DATA/music"
 MODE           = ("On","Off","StandBy")
 FORMAT         = (".mp3",".flac",".wma",".mp4")
@@ -32,7 +32,7 @@ class Song :
         self.album     = album
     def play(self) : 
         try : 
-            subprocess.call([PLAYER[1],self.name])
+            subprocess.call([PLAYER[2],self.name])
         except KeyboardInterrupt : 
             print("done")
             #process.terminate()
@@ -91,8 +91,6 @@ class Player :
             ex = os.path.splitext(elem)[1]
             ls_exten.append(ex)
         if ls_songs == [] or  ( FORMAT[0] not in ls_exten )  : 
-            i+=1 #debug
-            print(i)  #debug
             self.roulette_dir()
             
         else : 
@@ -106,14 +104,13 @@ class Player :
                 x = rdm.randint(0,len(ls))
                 extension = os.path.splitext(ls[x-1])[1]
             if os.path.splitext(ls[x-1])[1] in FORMAT : 
-                print(ls[x-1])
+                print("NOW BEING PLAYED      ::     " + ls[x-1])
                 song = Song(ls[x-1],extension = extension,album=album)
                 song.play()
-                
             else : 
                 self.roulette_songs(ls)
         except ValueError : #or IndexError :   
-            print(len(g(ls)))
+            print("error")
 
         
 #~*--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~--*~       
